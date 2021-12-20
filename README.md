@@ -46,7 +46,7 @@ kubectl autoscale deployment  --cpu-percent=50 --min=1 --max=10 -n app
 
 
 
-# User Rescources in this exercies: 
+# User Rescources in this exercise: 
 - https://devopscube.com/setup-jenkins-on-kubernetes-cluster/ 
 - https://www.digitalocean.com/community/tutorials/how-to-install-jenkins-on-kubernetes
 - https://github.com/minio/operator/blob/master/README.md
