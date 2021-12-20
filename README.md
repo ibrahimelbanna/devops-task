@@ -1,4 +1,4 @@
-![Arch] (https://github.com/ibrahimelbanna/devops-task/raw/main/banq-misr.drawio.png)
+![Diagram of the end-to-end solution](https://github.com/ibrahimelbanna/devops-task/raw/main/banq-misr.drawio.png)
 # Up the enviroment with vagrant and master and two node ubuntu
 cd vagrant-provisioning && vagrant up  
 
