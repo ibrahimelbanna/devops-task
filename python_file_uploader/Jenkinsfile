@@ -1,0 +1,61 @@
+pipeline {
+   agent any
+   environment {
+       registry = "ibrahimmohamed/minio_uploader"
+   }
+   stages {
+       stage('Build') {
+           agent {
+               docker {
+                   image 'python:latest'
+               }
+           }
+           steps {
+               // Create our project directory.
+               sh ''' 
+                cd python_file_uploader
+
+               '''
+           }
+       }
+       stage('Test') {
+           agent {
+               docker {
+                   image 'python:latest'
+               }
+           }
+           steps {
+               // Create our project directory.
+               sh '''
+                cd python_file_uploader
+
+                '''
+           }
+       }
+        stage('Publish') {
+           environment {
+               registryCredential = 'dockerhub'
+           }
+           steps{
+               script {
+                   def appimage = docker.build registry + ":$BUILD_NUMBER"
+                   docker.withRegistry( '', registryCredential ) {
+                       appimage.push()
+                       appimage.push('latest')
+                   }
+               }
+           }
+       }
+       stage ('Deploy') {
+           steps {
+               script{
+                   
+                   sh '''
+                    cd python_file_uploader/kube_manfist/
+                    kubectl apply -f deployment.yml -n app
+                   '''
+               }
+           }
+       }
+   }
+}

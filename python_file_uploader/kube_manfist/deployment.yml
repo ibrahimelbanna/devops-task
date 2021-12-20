@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: minio-uploader # name of the deployment
+  labels: # these labels apply to the deployment
+    app: minio-uploader
+    tier: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: minio-uploader
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels: # these labels apply to our container
+        app: minio-uploader
+        tier: backend
+    spec:
+      containers:
+      - name: minio-uploader # name of our container
+        image: ibrahimmohamed/minio_uploader:latest
+        command: [ "/bin/bash", "-c", "--" ]
+        args: [ "while true; do sleep 30; done;" ]
+         # URL of our database endpoint
+        ports:
+        - containerPort: 3000 # expose the running contianer on port 3000
+        resources:
+          limits:
+            cpu: 500m
+          requests:
+            cpu: 200m
+        name: backend
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: minio-uploader-service
+  labels:
+    app: minio-uploader
+spec:
+  type: NodePort
+  ports:
+    - port: 3000
+      name: minio-uploader
+      targetPort: 3000
+  selector:
+    app: minio-uploader
+    tier: backend
+

@@ -1,0 +1,5 @@
+certifi==2021.10.8
+minio==7.1.2
+protobuf==3.17.3
+six==1.16.0
+urllib3==1.26.7
